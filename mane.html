@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="hy">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MarketGuide</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:wght@500;600&family=Noto+Sans+Armenian:wght@400;600&family=Noto+Serif+Armenian:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f7f3ea;--card:#fffdf8;--g:#1f4d3a;--ink:#22262a;--sage:#9fb5a3;--gold:#c5a35a;--mut:#667068;--ln:#e3dccb;color-scheme:light}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:radial-gradient(900px 480px at 88% -4%,#e6eee3,transparent),radial-gradient(700px 400px at -5% 40%,#f3ead2,transparent),var(--bg);color:var(--ink);font:16px/1.65 Inter,'Noto Sans Armenian',system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3,h4{font-family:Newsreader,'Noto Serif Armenian',Georgia,serif;line-height:1.18;margin:0 0 .5em;font-weight:600;color:var(--g)}
+h1{font-size:clamp(34px,5.6vw,60px)}h2{font-size:clamp(28px,3.6vw,42px)}h3{font-size:24px}h4{font-size:18px}
+p{margin:0 0 1em}a{color:inherit}
+.wrap{max-width:1120px;margin:auto;padding:0 20px}
+section{padding:80px 0;position:relative}
+section:nth-of-type(even){background:linear-gradient(180deg,rgba(159,181,163,.14),transparent 70%)}
+.lead{font-size:18px;color:var(--mut);max-width:62ch}
+.note{color:var(--mut);font-size:15px;border-left:3px solid var(--gold);padding-left:14px;max-width:70ch}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+header{position:sticky;top:0;z-index:30;background:rgba(247,243,234,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--ln)}
+.bar{display:flex;align-items:center;gap:14px;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font:600 20px Newsreader,serif;text-decoration:none;color:var(--g);margin-right:auto}
+.logo svg{width:30px;height:30px}
+nav{display:flex;gap:2px}
+nav a{padding:8px 11px;border-radius:99px;text-decoration:none;font-size:14px;color:var(--mut);transition:.25s}
+nav a:hover,nav a.on{background:rgba(31,77,58,.09);color:var(--g)}
+.lg{display:flex;background:rgba(31,77,58,.07);border-radius:99px;padding:3px}
+.lg button{border:0;background:none;padding:6px 11px;border-radius:99px;font:600 12px Inter,sans-serif;color:var(--mut);cursor:pointer;transition:.25s}
+.lg button.on{background:var(--g);color:#fff}
+#mb{display:none;border:0;background:none;width:40px;height:40px;cursor:pointer;color:var(--g)}
+@media(max-width:1060px){#mb{display:block}nav{position:absolute;top:64px;left:0;right:0;flex-direction:column;background:var(--bg);padding:10px 20px 16px;border-bottom:1px solid var(--ln);display:none}nav.open{display:flex}}
+.btn{display:inline-block;border:0;cursor:pointer;background:var(--g);color:#fff;padding:13px 24px;border-radius:14px;font:600 15px Inter,'Noto Sans Armenian',sans-serif;text-decoration:none;box-shadow:0 10px 24px -12px rgba(31,77,58,.7);transition:.25s}
+.btn:hover{transform:translateY(-2px);background:#17402f}
+.btn.alt{background:transparent;color:var(--g);box-shadow:inset 0 0 0 1.5px var(--g)}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:22px;padding:22px;box-shadow:0 18px 40px -26px rgba(31,77,58,.45);transition:.3s}
+.two{display:grid;gap:30px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));align-items:center}
+.g3{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:30px}
+.fcard:hover,.cc:hover{transform:translateY(-5px);border-color:var(--gold)}
+.fcard i{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(197,163,90,.2);color:#8a6d27;font:600 14px Inter;font-style:normal;margin-bottom:12px}
+.fcard p{color:var(--mut);font-size:15px;margin:0}
+.js .rv{opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s}
+.js .rv.in{opacity:1;transform:none}
+/* hero */
+.hero{padding:70px 0 90px;overflow:hidden}
+.hg{display:grid;gap:30px;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));align-items:center}
+.hw{perspective:1000px}
+.hv{position:relative;height:400px;transform-style:preserve-3d;transform:rotateY(calc(var(--mx,0)*7deg)) rotateX(calc(var(--my,0)*-6deg));transition:transform .25s}
+.hv>svg{position:absolute;inset:0;width:100%;height:100%;background:rgba(255,253,248,.7);border:1px solid var(--ln);border-radius:28px;box-shadow:0 30px 60px -30px rgba(31,77,58,.5)}
+.hp{fill:none;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:520;stroke-dashoffset:520;animation:dr 2.2s .3s forwards}
+.hp.b{stroke:var(--gold)}.hp.a{stroke:var(--g)}
+@keyframes dr{to{stroke-dashoffset:0}}
+.fl{position:absolute;background:rgba(255,253,248,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--ln);border-radius:16px;padding:10px 16px;box-shadow:0 16px 34px -18px rgba(0,0,0,.35);translate:calc(var(--mx,0)*var(--k)*1px) calc(var(--my,0)*var(--k)*1px) var(--z);animation:fy 5s ease-in-out infinite}
+.fl small{display:block;color:var(--mut);font-size:12px}.fl b{color:var(--g);font-size:18px}
+.fl:nth-of-type(2n){animation-delay:-2s}
+@keyframes fy{50%{transform:translateY(-10px)}}
+/* diagram */
+#mdg{width:100%;max-width:640px;display:block;margin:auto}
+.nd{cursor:pointer}.nd rect,.nd circle{fill:#fff;stroke:var(--sage);stroke-width:1.6;transition:.3s}
+.nd text{text-anchor:middle;font:600 12px Inter,'Noto Sans Armenian',sans-serif;fill:var(--ink);pointer-events:none}
+.nd:hover rect,.nd:hover circle,.nd.on rect,.nd.on circle{fill:var(--g);stroke:var(--g)}
+.nd.on:not(:has(rect,circle)) text{fill:var(--gold)}
+.nd:hover text,.nd.on text{fill:#fff}
+.nd[data-n="2"] text,.nd[data-n="3"] text{fill:var(--g)}
+.nd[data-n="2"].on text,.nd[data-n="3"].on text{fill:#8a6d27}
+.flow{fill:none;stroke:var(--g);stroke-width:2.4;stroke-dasharray:6 6;animation:fl 1.1s linear infinite}
+@keyframes fl{to{stroke-dashoffset:-12}}
+#mx{margin:16px auto 0;text-align:center;min-height:52px;max-width:60ch;border:0;padding:0;font-size:16px;color:var(--ink)}
+/* charts */
+.ch svg{width:100%;height:auto;display:block}
+.gr path{stroke:#ebe5d4;stroke-width:1}.gr text,.at,.lb{font:11px Inter,'Noto Sans Armenian',sans-serif;fill:var(--mut)}
+.ax{fill:none;stroke:var(--ink);stroke-width:1.4}
+.ld,.ls{stroke-width:3.5;stroke-linecap:round;pointer-events:stroke}.ld{stroke:var(--g)}.ls{stroke:var(--gold)}
+.lb{font-weight:600;font-size:12px}
+.pl{fill:none;stroke:var(--ink);stroke-width:1.2;stroke-dasharray:4 4;opacity:.6}
+.pt{fill:var(--ink);stroke:var(--bg);stroke-width:2;cursor:pointer}.mk{fill:var(--g);stroke:#fff;stroke-width:2}
+.ring{fill:none;stroke:var(--gold);stroke-width:2;transform-box:fill-box;transform-origin:center;animation:pu 2s infinite}
+@keyframes pu{from{transform:scale(.6);opacity:1}to{transform:scale(2);opacity:0}}
+.gap{fill:rgba(197,163,90,.45)}.gap.sh{fill:rgba(31,77,58,.4)}
+.ctl{display:grid;gap:10px 22px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:8px 0 14px}
+label{display:grid;gap:4px;font-size:14px;color:var(--mut)}label b{color:var(--g)}
+input[type=range]{width:100%;accent-color:var(--g)}
+input:not([type=range]),select{width:100%;padding:11px 13px;border-radius:12px;border:1px solid var(--ln);background:#fff;font:inherit;color:var(--ink)}
+.rd{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}
+.kpi{background:rgba(31,77,58,.06);border-radius:14px;padding:10px 14px}.kpi small{display:block;color:var(--mut);font-size:12px}.kpi b{font:600 24px Newsreader,serif;color:var(--g)}
+.st{margin:14px 0 10px;padding:12px 14px;border-radius:14px;font-size:15px;background:rgba(31,77,58,.07)}
+.st.su{background:rgba(197,163,90,.22)}.st.sh{background:rgba(159,181,163,.35)}
+.bars{display:grid;gap:8px}.bar2{height:9px;border-radius:9px;background:var(--ln);overflow:hidden}.bar2 i{display:block;height:100%;width:0;background:var(--g);transition:width .5s}.bar2 i.gd2{background:var(--gold)}
+.bars small{color:var(--mut);font-size:12px}
+/* competition */
+#cg{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.cc{text-align:left;cursor:pointer;font:inherit;color:inherit}.cc.on{background:var(--g);border-color:var(--g)}.cc.on h4{color:#fff}
+.cc i{font:600 13px Inter;color:#8a6d27;font-style:normal}.cc.on i{color:var(--gold)}
+#cp{margin-top:18px}#cp>*{animation:fi .5s}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}}
+dl{display:grid;grid-template-columns:minmax(120px,200px) 1fr;gap:10px 18px;margin:0}dt{font-weight:600;color:var(--g)}dd{margin:0;color:var(--ink)}
+@media(max-width:560px){dl{grid-template-columns:1fr;gap:2px}dd{margin-bottom:10px}}
+/* sim, calc, quiz */
+.pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.pills button{border:1px solid var(--ln);background:#fff;padding:9px 18px;border-radius:99px;cursor:pointer;font:500 14px Inter,'Noto Sans Armenian',sans-serif;transition:.25s}
+.pills button.on{background:var(--g);color:#fff;border-color:var(--g)}
+.res{margin:14px 0 0;padding:12px 14px;border-radius:12px;background:rgba(31,77,58,.08);min-height:20px}.res:empty{display:none}.res.err{background:#f6e3df;color:#8a2b1c}
+.form{display:grid;gap:12px}
+.pg{height:7px;background:var(--ln);border-radius:7px;overflow:hidden;margin-bottom:18px}.pg i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--g),var(--gold));transition:width .5s}
+.opts{display:grid;gap:10px;margin:14px 0}
+.opt{text-align:left;border:1.5px solid var(--ln);background:#fff;padding:14px 16px;border-radius:14px;cursor:pointer;font:inherit;color:inherit;transition:.2s}
+.opts:not(.dn) .opt:hover{border-color:var(--g);transform:translateX(4px)}
+.dn .opt{cursor:default}.opt.ok{background:rgba(31,77,58,.14);border-color:var(--g)}.opt.bad{background:#f6e3df;border-color:#b5483a}
+.ex{background:rgba(197,163,90,.18);padding:12px 14px;border-radius:12px}
+.fin{text-align:center;padding:20px 0}.fin b{display:block;font:600 64px Newsreader,serif;color:var(--g)}
+#qb small{color:var(--mut)}
+footer{background:var(--g);color:#e9efe9;padding:56px 0 30px;margin-top:40px}
+footer .logo{color:#fff}footer a{text-decoration:none;opacity:.85}footer a:hover{opacity:1}
+.fg{display:grid;gap:32px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.fn{display:flex;flex-direction:column;gap:6px;font-size:14px}
+footer .lg{background:rgba(255,255,255,.12);width:max-content}footer .lg button{color:#cfdccf}
+.fb{border-top:1px solid rgba(255,255,255,.18);margin-top:30px;padding-top:20px;font-size:14px;opacity:.85}
+#tip{position:fixed;z-index:60;pointer-events:none;opacity:0;background:var(--ink);color:#fff;padding:8px 12px;border-radius:10px;font-size:13px;max-width:240px;transition:opacity .15s}
+#toast{position:fixed;bottom:22px;left:50%;translate:-50% 20px;background:var(--g);color:#fff;padding:10px 20px;border-radius:99px;opacity:0;transition:.3s;z-index:60;font-size:14px}
+#toast.on{opacity:1;translate:-50% 0}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}.hp{stroke-dashoffset:0}}
+</style>
+</head>
+<body>
+<div id="tip"></div><div id="toast"></div>
+<header><div class="wrap bar">
+<a class="logo" href="#home"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="#1f4d3a"/><path d="M7 9L25 23M7 23L25 9" stroke="#c5a35a" stroke-width="2.4" stroke-linecap="round"/><circle cx="16" cy="16" r="2.6" fill="#f7f3ea"/></svg>MarketGuide</a>
+<nav id="nv"><a href="#home" data-a="nav" data-j="0"></a><a href="#market" data-a="nav" data-j="1"></a><a href="#demand" data-a="nav" data-j="2"></a><a href="#supply" data-a="nav" data-j="3"></a><a href="#eq" data-a="nav" data-j="4"></a><a href="#comp" data-a="nav" data-j="5"></a><a href="#graph" data-a="nav" data-j="6"></a><a href="#calc" data-a="nav" data-j="7"></a><a href="#quiz" data-a="nav" data-j="8"></a></nav>
+<div class="lg"><button data-l="hy">ՀԱՅ</button><button data-l="ru">РУС</button><button data-l="en">ENG</button></div>
+<button id="mb" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+
+<main>
+<section id="home" class="hero"><div class="wrap hg">
+<div><h1 data-i="h"></h1><p class="lead" data-i="hs"></p><div class="cta"><a class="btn" href="#market" data-i="b1"></a><a class="btn alt" href="#graph" data-i="b2"></a></div></div>
+<div class="hw"><div class="hv" id="hv">
+<svg viewBox="0 0 400 300"><g stroke="#ebe5d4"><path d="M30 50H370M30 110H370M30 170H370M30 230H370M90 30V270M170 30V270M250 30V270M330 30V270"/></g>
+<path class="hp a" d="M30 60C120 80 200 160 370 250"/><path class="hp b" d="M30 250C120 220 230 120 370 50"/>
+<circle cx="205" cy="152" r="7" fill="#22262a"/><circle class="ring" cx="205" cy="152" r="9"/></svg>
+<div class="fl" style="top:6%;left:-2%;--k:22;--z:60px"><small data-a="sp" data-j="0"></small><b>֏ 450</b></div>
+<div class="fl" style="top:12%;right:-2%;--k:-18;--z:90px"><small data-a="sp" data-j="2"></small><b>֏ 1 200</b></div>
+<div class="fl" style="bottom:14%;left:4%;--k:-26;--z:40px"><small data-a="sp" data-j="1"></small><b>֏ 300</b></div>
+<div class="fl" style="bottom:6%;right:2%;--k:16;--z:80px"><small data-a="sp" data-j="3"></small><b>֏ 189 000</b></div>
+</div></div></div></section>
+
+<section id="market"><div class="wrap">
+<h2 data-i="mt"></h2><p class="lead" data-i="md"></p>
+<div class="card rv"><svg id="mdg" viewBox="0 0 420 220"><defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1f4d3a"/></marker></defs>
+<g class="nd" data-n="2"><path class="flow" d="M300 80C250 20 170 20 120 80" marker-end="url(#ar)"/><text x="210" y="26" data-a="mn" data-j="2"></text></g>
+<g class="nd" data-n="3"><path class="flow" d="M120 140C170 200 250 200 300 140" marker-end="url(#ar)"/><text x="210" y="212" data-a="mn" data-j="3"></text></g>
+<g class="nd" data-n="0"><rect x="6" y="70" width="114" height="80" rx="18"/><text x="63" y="115" data-a="mn" data-j="0"></text></g>
+<g class="nd" data-n="1"><rect x="300" y="70" width="114" height="80" rx="18"/><text x="357" y="115" data-a="mn" data-j="1"></text></g>
+<g class="nd" data-n="4"><circle cx="210" cy="110" r="34"/><text x="210" y="115" data-a="mn" data-j="4"></text></g></svg>
+<p id="mx" class="note"></p><p style="text-align:center;color:var(--mut);font-size:13px;margin:0" data-i="mh"></p></div>
+</div></section>
+
+<section id="demand"><div class="wrap">
+<h2 data-i="dt"></h2><p class="lead" data-i="dd"></p>
+<div id="ch-d" class="rv"></div>
+<p class="note" data-i="dm" style="margin-top:20px"></p><p class="lead" data-i="dx"></p>
+<div class="g3" id="fd"></div>
+</div></section>
+
+<section id="supply"><div class="wrap">
+<h2 data-i="st"></h2><p class="lead" data-i="sd"></p>
+<div id="ch-s" class="rv"></div>
+<p class="note" data-i="sm" style="margin-top:20px"></p>
+<div class="g3" id="fs"></div>
+</div></section>
+
+<section id="eq"><div class="wrap two">
+<div><h2 data-i="et"></h2><p class="lead" data-i="ed"></p><p class="note" data-i="ex1"></p></div>
+<div id="ch-e" class="rv"></div>
+</div></section>
+
+<section id="comp"><div class="wrap">
+<h2 data-i="ct"></h2><div id="cg"></div><div class="card" id="cp"></div>
+</div></section>
+
+<section id="graph"><div class="wrap">
+<h2 data-i="gt"></h2><p class="lead" data-i="gd"></p>
+<div id="ch-g" class="rv"></div>
+</div></section>
+
+<section id="sim"><div class="wrap">
+<h2 data-i="simT"></h2>
+<div class="card rv"><div class="pills" id="sp"><button class="on" data-j="0" data-a="sp"></button><button data-j="1" data-a="sp"></button><button data-j="2" data-a="sp"></button><button data-j="3" data-a="sp"></button></div>
+<div class="ctl">
+<label><span data-a="sl" data-j="0"></span> <b id="v-p"></b><input type="range" id="s-p" min="1" max="60" value="30"></label>
+<label><span data-a="sl" data-j="1"></span> <b id="v-dm"></b><input type="range" id="s-dm" min="50" max="150" value="100"></label>
+<label><span data-a="sl" data-j="2"></span> <b id="v-sp"></b><input type="range" id="s-sp" min="50" max="150" value="100"></label>
+<label><span data-a="sl" data-j="3"></span> <b id="v-ct"></b><input type="range" id="s-ct" min="0" max="40" value="0"></label></div>
+<div class="rd">
+<div class="kpi"><small data-a="so" data-j="0"></small><b id="o-p">0</b></div>
+<div class="kpi"><small data-a="so" data-j="1"></small><b id="o-d">0</b></div>
+<div class="kpi"><small data-a="so" data-j="2"></small><b id="o-s">0</b></div>
+<div class="kpi"><small data-a="so" data-j="3"></small><b><span id="o-P">0</span> / <span id="o-Q">0</span></b></div>
+<div class="kpi"><small data-a="so" data-j="4"></small><b id="o-t" style="font-size:19px"></b></div></div></div>
+</div></section>
+
+<section id="calc"><div class="wrap">
+<h2 data-i="kt"></h2>
+<div class="two" style="align-items:start">
+<div class="card rv form"><h3 data-i="k1"></h3><label><span data-i="kn"></span><input id="c-n"></label><label><span data-i="kp"></span><input id="c-p" type="number" step="any" min="0"></label><label><span data-i="kq"></span><input id="c-q" type="number" step="any" min="0"></label><div><button class="btn" id="c-b" data-i="kb"></button></div><p class="note" data-i="kr" style="margin:0"></p><div class="res" id="c-r"></div></div>
+<div class="card rv form"><h3 data-i="eqT"></h3><p class="note" data-i="eqD" style="margin:0"></p>
+<label>a (Qd = a − b·P)<input id="e-a" type="number" step="any" value="100"></label><label>b<input id="e-b" type="number" step="any" value="2"></label><label>c (Qs = c + d·P)<input id="e-c" type="number" step="any" value="-20"></label><label>d<input id="e-d" type="number" step="any" value="3"></label>
+<div><button class="btn" id="e-btn" data-i="kb"></button></div><div class="res" id="e-r"></div></div>
+</div></div></section>
+
+<section id="quiz"><div class="wrap"><h2 data-i="qT"></h2>
+<div class="card rv" style="max-width:760px"><div class="pg"><i id="qp"></i></div><div id="qb"></div></div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><div class="fg">
+<div><a class="logo" href="#home"><svg viewBox="0 0 32 32" width="30" height="30"><rect width="32" height="32" rx="9" fill="#c5a35a"/><path d="M7 9L25 23M7 23L25 9" stroke="#1f4d3a" stroke-width="2.4" stroke-linecap="round"/></svg>MarketGuide</a><p style="margin-top:12px" data-i="fd2"></p></div>
+<div class="fn"><a href="#market" data-a="nav" data-j="1"></a><a href="#demand" data-a="nav" data-j="2"></a><a href="#supply" data-a="nav" data-j="3"></a><a href="#eq" data-a="nav" data-j="4"></a><a href="#comp" data-a="nav" data-j="5"></a></div>
+<div class="fn"><a href="#graph" data-a="nav" data-j="6"></a><a href="#calc" data-a="nav" data-j="7"></a><a href="#quiz" data-a="nav" data-j="8"></a></div>
+<div><p data-i="fl"></p><div class="lg"><button data-l="hy">ՀԱՅ</button><button data-l="ru">РУС</button><button data-l="en">ENG</button></div></div>
+</div><div class="fb"><p data-i="fn"></p><p style="margin:0" data-i="fc"></p></div></div></footer>
+
+<script>
+const L={
+hy:{nav:"Գլխավոր|Շուկա|Պահանջարկ|Առաջարկ|Հավասարակշռություն|Մրցակցություն|Գրաֆիկ|Հաշվիչ|Թեստ",
+h:"Ինչպե՞ս է ձևավորվում շուկայական գինը",hs:"Պահանջարկը, առաջարկը, մրցակցությունը և սպառողների որոշումները միասին ձևավորում են տնտեսությունը։",b1:"Սկսել ուսումնասիրությունը",b2:"Փորձել ինտերակտիվ գրաֆիկը",
+mt:"Ի՞նչ է շուկան",md:"Շուկան գնորդների և վաճառողների փոխազդեցության միջավայր է, որտեղ ապրանքներն ու ծառայությունները փոխանակվում են գումարի դիմաց, իսկ փոխանակման ընթացքում ձևավորվում է գինը։",
+mn:"Գնորդներ|Վաճառողներ|Ապրանքներ և ծառայություններ|Փոխանակում|Գին",
+me:"Գնորդները ցանկանում են ձեռք բերել ապրանք և պատրաստ են վճարել։|Վաճառողները ապրանք են առաջարկում՝ շահույթ ստանալու նպատակով։|Ապրանքները նյութական են, ծառայությունները՝ ոչ նյութական (օր.՝ ուսուցում)։|Փոխանակումը կատարվում է գումարի դիմաց, երբ կողմերը համաձայնում են։|Գինը ձևավորվում է գնորդների և վաճառողների փոխազդեցության արդյունքում։",mh:"Սեղմեք տարրերի վրա",
+dt:"Պահանջարկ",dd:"Պահանջարկը այն քանակն է, որը գնորդները պատրաստ են և կարող են գնել տվյալ գնով։ Պահանջարկի օրենք. գնի աճի դեպքում պահանջվող քանակը նվազում է, իսկ գնի նվազման դեպքում՝ աճում (այլ հավասար պայմաններում)։",
+dfT:"Սպառողի եկամուտ|Նախասիրություններ|Գնորդների թիվ|Փոխարինող ապրանքների գներ|Փոխլրացնող ապրանքների գներ|Սպասումներ",
+dfX:"Եկամտի աճը մեծացնում է պահանջարկը նորմալ ապրանքների համար։|Նորաձևությունը և սովորույթները փոխում են պահանջարկը։|Ավելի շատ գնորդ՝ ավելի մեծ պահանջարկ։|Թեյի թանկացումը մեծացնում է սուրճի պահանջարկը։|Սմարթֆոնների թանկացումը նվազեցնում է պատյանների պահանջարկը։|Գնի սպասվող աճը այսօր մեծացնում է գնումները։",
+dm:"Շարժումը կորի երկայնքով տեղի է ունենում միայն գնի փոփոխությունից։ Կորի տեղաշարժը՝ գնից բացի մյուս գործոնների փոփոխությունից։",
+dx:"Օրինակներ. խնձոր (գինն իջնում է՝ գնում են ավելի շատ), սուրճ, սմարթֆոն, հագուստ (եկամտի աճ՝ ավելի շատ գնումներ)։",
+st:"Առաջարկ",sd:"Առաջարկը այն քանակն է, որը վաճառողները պատրաստ են վաճառել տվյալ գնով։ Առաջարկի օրենք. գնի աճի դեպքում առաջարկվող քանակը մեծանում է (այլ հավասար պայմաններում)։",
+sfT:"Արտադրության ծախսեր|Տեխնոլոգիա|Հարկեր|Սուբսիդիաներ|Արտադրողների թիվ|Սպասումներ",
+sfX:"Ծախսերի աճը նվազեցնում է առաջարկը։|Նոր տեխնոլոգիան իջեցնում է ծախսերը և մեծացնում առաջարկը։|Հարկերը մեծացնում են ծախսերը՝ առաջարկը նվազում է։|Սուբսիդիան իջեցնում է ծախսերը՝ առաջարկն աճում է։|Ավելի շատ արտադրող՝ ավելի մեծ առաջարկ։|Գնի սպասվող աճը կարող է ժամանակավորապես նվազեցնել առաջարկը։",
+sm:"Գնի փոփոխությունը շարժում է առաջարկի կորի երկայնքով։ Ծախսերի, տեխնոլոգիայի, հարկերի փոփոխությունը տեղաշարժում է կորը։",
+gt:"Ինտերակտիվ գրաֆիկ",gd:"Փոխեք պահանջարկը, առաջարկը և շուկայական գինը՝ տեսնելու հավասարակշռությունը։ Հատման կետը հաշվվում է բանաձևով՝ P* = (a − c)/(b + d)։",
+P:"Գին (֏)",Q:"Քանակ",D:"Պահանջարկ",S:"Առաջարկ",lp:"Շուկայական գին",lA:"Պահանջարկի տեղաշարժ",lC:"Առաջարկի տեղաշարժ",
+tD:"Պահանջարկի կոր. գնի աճի դեպքում քանակը նվազում է",tS:"Առաջարկի կոր. գնի աճի դեպքում քանակը մեծանում է",tE:"Հավասարակշռության կետ. պահանջարկ = առաջարկ",
+rd:"Պահանջվող քանակ",rs:"Առաջարկվող քանակ",rP:"Հավասարակշռության գին",rQ:"Հավասարակշռության քանակ",rg:"տարբերություն",
+sur:"Ավելցուկ. գինը հավասարակշռությունից բարձր է, վաճառողներն ավելի շատ են առաջարկում, քան գնորդները պահանջում են։ Չվաճառված ապրանքները ստիպում են իջեցնել գինը։",
+sho:"Պակասորդ. գինը հավասարակշռությունից ցածր է, գնորդներն ավելի շատ են ուզում, քան կա։ Գնորդների մրցակցությունը գինը բարձրացնում է։",
+eqs:"Հավասարակշռություն. պահանջարկը հավասար է առաջարկին, շուկան կայուն է։",
+et:"Շուկայական հավասարակշռություն",ed:"Հավասարակշռությունը վիճակ է, երբ պահանջվող և առաջարկվող քանակները հավասար են։ Եթե գինը բարձր է՝ առաջանում է ավելցուկ և գինն իջնում է, եթե ցածր է՝ պակասորդ և գինը բարձրանում է։ Այսպես գինը ձգտում է հավասարակշռության գնին։",
+ex1:"Օրինակ. շուկայում խնձորի գինը ձգտում է այնպիսի մակարդակի, որի դեպքում վաճառվում է ողջ բերքը։",
+ct:"Մրցակցություն",cn:"Կատարյալ մրցակցություն|Մենաշնորհ|Օլիգոպոլիա|Մենաշնորհային մրցակցություն",
+cl:"Սահմանում|Բնութագրեր|Օրինակ|Մրցակիցների թիվ|Ազդեցությունը գնի վրա|Առավելություններ|Թերություններ",
+cd:"Շուկա, որտեղ շատ փոքր վաճառողներ վաճառում են նույն ապրանքը։|Միատեսակ ապրանք, ազատ մուտք շուկա։|Գյուղատնտեսական ապրանքներ (ցորեն)։|Շատ։|Մեկ վաճառողը գինը չի թելադրում։|Ցածր գներ, արդյունավետություն։|Քիչ բազմազանություն, ցածր շահույթ։~Շուկա, որտեղ ապրանքը վաճառում է միայն մեկ վաճառող։|Փոխարինող չկա, մուտքը փակ է։|Տեղական ջրամատակարար ընկերություն։|Մեկ։|Մեծ. վաճառողը սահմանում է գինը։|Մասշտաբի խնայողություն։|Բարձր գներ, ցածր որակ։~Շուկա, որտեղ գերիշխում են մի քանի խոշոր ընկերություններ։|Փոխկախվածություն, մուտքի խոչընդոտներ։|Բջջային օպերատորներ, ավիաընկերություններ։|Քիչ (2–10)։|Զգալի, բայց հաշվի են առնում մրցակիցներին։|Նորարարություն, մասշտաբ։|Գների համաձայնեցման վտանգ։~Շատ վաճառողներ վաճառում են տարբերակված ապրանքներ։|Ապրանքանիշեր, ազատ մուտք։|Սրճարաններ, հագուստի խանութներ։|Շատ։|Սահմանափակ՝ ապրանքանիշի շնորհիվ։|Բազմազանություն, ընտրություն։|Գովազդային ծախսեր։",
+simT:"Տնտեսական սիմուլյատոր",sp:"Խնձոր|Հաց|Սուրճ|Սմարթֆոն",sl:"Շուկայական գին|Պահանջարկ|Առաջարկ|Արտադրության ծախս",so:"Ընթացիկ գին|Պահանջվող քանակ|Առաջարկվող քանակ|Հավասարակշռություն (P / Q)|Վիճակ",ss:"Ավելցուկ|Պակասորդ|Հավասարակշռություն",
+kt:"Հաշվիչ",k1:"Ընդհանուր արժեք",kn:"Ապրանքի անվանումը",kp:"Միավորի գինը (֏)",kq:"Քանակը",kb:"Հաշվել",kr:"Ընդհանուր արժեք = գին × քանակ",
+eqT:"Հավասարակշռության հաշվիչ",eqD:"Պահանջարկ՝ Qd = a − b·P, առաջարկ՝ Qs = c + d·P",
+e1:"Մուտքագրեք ճիշտ թվեր։",e2:"Գինը և քանակը չեն կարող բացասական լինել։",e3:"Եզակի հատման կետ չկա (b + d = 0)։",e4:"Հավասարակշռությունը տնտեսապես իմաստ չունի (P կամ Q ≤ 0)։",
+qT:"Թեստ",qn:"Հաջորդը",qf:"Ավարտել",qs:"Միավոր",qr:"Սկսել նորից",qc:"Ճիշտ է։",qw:"Սխալ է։",qq:"Հարց",qm:"Կրկնեք նյութը և փորձեք նորից։|Լավ արդյունք է։|Գերազանց։",tl:"Լեզուն փոխվեց։",
+qz:"Ի՞նչ է շուկան։|Գնորդների և վաճառողների փոխազդեցությունը փոխանակման համար|Միայն խանութը|Պետական պահեստ|Բանկային հաշիվ|0|Շուկան գնորդների և վաճառողների փոխազդեցությունն է, որտեղ ձևավորվում է գինը։~Պահանջարկի օրենքը ասում է՝|Գնի աճի դեպքում պահանջվող քանակը նվազում է|Գնի աճի դեպքում քանակը աճում է|Գինը չի ազդում քանակի վրա|Եկամուտը միշտ նվազում է|0|Գնի և պահանջվող քանակի միջև հակադարձ կապ կա։~Առաջարկի օրենքը ասում է՝|Գնի աճի դեպքում առաջարկվող քանակը նվազում է|Գնի աճի դեպքում առաջարկվող քանակը մեծանում է|Առաջարկը կախված չէ գնից|Գինը միշտ հաստատուն է|1|Գնի և առաջարկվող քանակի միջև ուղիղ կապ կա։~Ո՞ր գործոնն է տեղաշարժում պահանջարկի կորը։|Ապրանքի սեփական գինը|Սպառողի եկամուտը|Արտադրության տեխնոլոգիան|Վաճառողների թիվը|1|Սեփական գինը միայն շարժում է կորի երկայնքով, իսկ եկամուտը տեղաշարժում է կորը։~Հավասարակշռության դեպքում՝|Պահանջվող քանակը հավասար է առաջարկվող քանակին|Պահանջը զրո է|Առաջարկը զրո է|Գինը զրո է|0|Հավասարակշռության կետում Qd = Qs։~Եթե գինը հավասարակշռությունից բարձր է, առաջանում է՝|Պակասորդ|Ավելցուկ|Հավասարակշռություն|Մենաշնորհ|1|Բարձր գնի դեպքում Qs > Qd, այսինքն՝ ավելցուկ։~Եթե գինը հավասարակշռությունից ցածր է, առաջանում է՝|Ավելցուկ|Հավասարակշռություն|Պակասորդ|Հարկ|2|Ցածր գնի դեպքում Qd > Qs, այսինքն՝ պակասորդ։~Արտադրության ծախսերի աճը՝|Մեծացնում է առաջարկը|Նվազեցնում է առաջարկը (կորը ձախ)|Չի փոխում առաջարկը|Մեծացնում է պահանջարկը|1|Ծախսերի աճի դեպքում արտադրությունն ավելի քիչ շահավետ է՝ առաջարկը նվազում է։~Վաճառողը մեկն է, փոխարինող չկա։ Սա՝|Կատարյալ մրցակցություն|Մենաշնորհ|Օլիգոպոլիա|Մենաշնորհային մրցակցություն|1|Մեկ վաճառողով շուկան մենաշնորհ է։~Քիչ խոշոր ընկերություններ են գերիշխում շուկայում։ Սա՝|Օլիգոպոլիա|Կատարյալ մրցակցություն|Մենաշնորհ|Հավասարակշռություն|0|Այդ կառուցվածքը կոչվում է օլիգոպոլիա։",
+fd2:"Ուսումնական հարթակ շուկայի հիմնական հասկացությունների մասին։",fn:"Ուսումնական նախագիծ՝ տնտեսագիտության հիմնական հասկացությունների ուսումնասիրության համար։",fc:"Նյութը պատրաստվել է դպրոցական տնտեսագիտության դասագրքի և լրացուցիչ ուսումնական աղբյուրների հիման վրա։",fl:"Լեզու"},
+
+ru:{nav:"Главная|Рынок|Спрос|Предложение|Равновесие|Конкуренция|График|Калькулятор|Тест",
+h:"Как формируется рыночная цена?",hs:"Спрос, предложение, конкуренция и решения потребителей вместе формируют экономику.",b1:"Начать изучение",b2:"Попробовать интерактивный график",
+mt:"Что такое рынок?",md:"Рынок — это среда взаимодействия покупателей и продавцов, где товары и услуги обмениваются на деньги, а в ходе обмена формируется цена.",
+mn:"Покупатели|Продавцы|Товары и услуги|Обмен|Цена",
+me:"Покупатели хотят приобрести товар и готовы платить.|Продавцы предлагают товар, чтобы получить прибыль.|Товары материальны, услуги нематериальны (например, обучение).|Обмен происходит за деньги, когда стороны согласны.|Цена формируется в результате взаимодействия покупателей и продавцов.",mh:"Нажмите на элемент",
+dt:"Спрос",dd:"Спрос — это количество товара, которое покупатели готовы и способны купить по данной цене. Закон спроса: при росте цены величина спроса падает, при снижении — растёт (при прочих равных условиях).",
+dfT:"Доход потребителей|Предпочтения|Число покупателей|Цены товаров-заменителей|Цены дополняющих товаров|Ожидания",
+dfX:"Рост дохода увеличивает спрос на нормальные товары.|Мода и привычки меняют спрос.|Больше покупателей — больше спроса.|Подорожание чая повышает спрос на кофе.|Рост цен на смартфоны снижает спрос на чехлы.|Ожидаемый рост цен увеличивает покупки сегодня.",
+dm:"Изменение цены — это движение вдоль кривой. Изменение остальных факторов — сдвиг кривой.",
+dx:"Примеры: яблоки (цена падает — покупают больше), кофе, смартфоны, одежда (рост дохода — больше покупок).",
+st:"Предложение",sd:"Предложение — это количество товара, которое продавцы готовы продать по данной цене. Закон предложения: при росте цены величина предложения растёт (при прочих равных условиях).",
+sfT:"Издержки производства|Технологии|Налоги|Субсидии|Число производителей|Ожидания",
+sfX:"Рост издержек снижает предложение.|Новые технологии снижают издержки и увеличивают предложение.|Налоги повышают издержки — предложение падает.|Субсидии снижают издержки — предложение растёт.|Больше производителей — больше предложения.|Ожидание роста цен может временно сократить предложение.",
+sm:"Изменение цены — движение вдоль кривой предложения. Изменение издержек, технологий или налогов сдвигает кривую.",
+gt:"Интерактивный график",gd:"Меняйте спрос, предложение и рыночную цену. Точка пересечения считается по формуле: P* = (a − c)/(b + d).",
+P:"Цена (֏)",Q:"Количество",D:"Спрос",S:"Предложение",lp:"Рыночная цена",lA:"Сдвиг спроса",lC:"Сдвиг предложения",
+tD:"Кривая спроса: при росте цены количество падает",tS:"Кривая предложения: при росте цены количество растёт",tE:"Точка равновесия: спрос = предложение",
+rd:"Величина спроса",rs:"Величина предложения",rP:"Равновесная цена",rQ:"Равновесное количество",rg:"разница",
+sur:"Излишек: цена выше равновесной, продавцы предлагают больше, чем хотят купить. Нераспроданный товар заставляет снижать цену.",
+sho:"Дефицит: цена ниже равновесной, покупатели хотят больше, чем есть. Конкуренция покупателей повышает цену.",
+eqs:"Равновесие: спрос равен предложению, рынок стабилен.",
+et:"Рыночное равновесие",ed:"Равновесие — состояние, когда величины спроса и предложения равны. Если цена высока, возникает излишек и цена снижается; если низка — дефицит и цена растёт. Так цена стремится к равновесной.",
+ex1:"Пример: цена яблок на рынке стремится к уровню, при котором раскупается весь урожай.",
+ct:"Конкуренция",cn:"Совершенная конкуренция|Монополия|Олигополия|Монополистическая конкуренция",
+cl:"Определение|Особенности|Пример|Число конкурентов|Влияние на цену|Преимущества|Недостатки",
+cd:"Рынок, где множество мелких продавцов продают одинаковый товар.|Однородный товар, свободный вход.|Сельхозпродукция (пшеница).|Очень много.|Продавец цену не диктует.|Низкие цены, эффективность.|Мало разнообразия, низкая прибыль.~Рынок, где товар продаёт единственный продавец.|Нет заменителей, вход закрыт.|Местный водоканал.|Один.|Большое: цену задаёт продавец.|Экономия на масштабе.|Высокие цены, низкое качество.~Рынок, где доминируют несколько крупных компаний.|Взаимозависимость, барьеры входа.|Операторы связи, авиакомпании.|Мало (2–10).|Значительное, с оглядкой на конкурентов.|Инновации, масштаб.|Риск сговора о ценах.~Много продавцов предлагают различающиеся товары.|Бренды, свободный вход.|Кафе, магазины одежды.|Много.|Ограниченное — за счёт бренда.|Разнообразие, выбор.|Затраты на рекламу.",
+simT:"Экономический симулятор",sp:"Яблоки|Хлеб|Кофе|Смартфоны",sl:"Рыночная цена|Спрос|Предложение|Издержки производства",so:"Текущая цена|Величина спроса|Величина предложения|Равновесие (P / Q)|Состояние",ss:"Излишек|Дефицит|Равновесие",
+kt:"Калькулятор",k1:"Общая стоимость",kn:"Название товара",kp:"Цена за единицу (֏)",kq:"Количество",kb:"Рассчитать",kr:"Общая стоимость = цена × количество",
+eqT:"Калькулятор равновесия",eqD:"Спрос: Qd = a − b·P, предложение: Qs = c + d·P",
+e1:"Введите корректные числа.",e2:"Цена и количество не могут быть отрицательными.",e3:"Единственной точки пересечения нет (b + d = 0).",e4:"Равновесие не имеет экономического смысла (P или Q ≤ 0).",
+qT:"Тест",qn:"Далее",qf:"Завершить",qs:"Баллы",qr:"Начать заново",qc:"Верно!",qw:"Неверно.",qq:"Вопрос",qm:"Повторите материал и попробуйте снова.|Хороший результат.|Отлично!",tl:"Язык изменён.",
+qz:"Что такое рынок?|Взаимодействие покупателей и продавцов для обмена|Только магазин|Государственный склад|Банковский счёт|0|Рынок — взаимодействие покупателей и продавцов, где формируется цена.~Закон спроса гласит:|При росте цены величина спроса падает|При росте цены величина спроса растёт|Цена не влияет на спрос|Доход всегда падает|0|Между ценой и величиной спроса обратная связь.~Закон предложения гласит:|При росте цены величина предложения падает|При росте цены величина предложения растёт|Предложение не зависит от цены|Цена всегда постоянна|1|Между ценой и величиной предложения прямая связь.~Какой фактор сдвигает кривую спроса?|Собственная цена товара|Доход потребителя|Технология производства|Число продавцов|1|Собственная цена лишь двигает по кривой, а доход сдвигает её.~При равновесии:|Величина спроса равна величине предложения|Спрос равен нулю|Предложение равно нулю|Цена равна нулю|0|В точке равновесия Qd = Qs.~Если цена выше равновесной, возникает:|Дефицит|Излишек|Равновесие|Монополия|1|При высокой цене Qs > Qd — излишек.~Если цена ниже равновесной, возникает:|Излишек|Равновесие|Дефицит|Налог|2|При низкой цене Qd > Qs — дефицит.~Рост издержек производства:|Увеличивает предложение|Снижает предложение (кривая влево)|Не меняет предложение|Увеличивает спрос|1|При росте издержек производство менее выгодно — предложение падает.~Продавец один, заменителей нет. Это:|Совершенная конкуренция|Монополия|Олигополия|Монополистическая конкуренция|1|Рынок с одним продавцом — монополия.~Рынок делят несколько крупных компаний. Это:|Олигополия|Совершенная конкуренция|Монополия|Равновесие|0|Такая структура называется олигополией.",
+fd2:"Учебная платформа об основных понятиях рынка.",fn:"Учебный проект для изучения основных понятий экономики.",fc:"Материал подготовлен по школьному учебнику экономики и дополнительным учебным источникам.",fl:"Язык"},
+
+en:{nav:"Home|Market|Demand|Supply|Equilibrium|Competition|Graph|Calculator|Quiz",
+h:"How is the market price formed?",hs:"Demand, supply, competition and consumer decisions together shape the economy.",b1:"Start exploring",b2:"Try the interactive graph",
+mt:"What is a market?",md:"A market is where buyers and sellers interact: goods and services are exchanged for money, and the price is formed in the process.",
+mn:"Buyers|Sellers|Goods and services|Exchange|Price",
+me:"Buyers want to acquire a product and are ready to pay.|Sellers offer a product in order to earn a profit.|Goods are tangible, services are intangible (e.g. teaching).|Exchange happens for money once both sides agree.|Price is formed through the interaction of buyers and sellers.",mh:"Click an element",
+dt:"Demand",dd:"Demand is the quantity of a good that buyers are willing and able to buy at a given price. Law of demand: when price rises, quantity demanded falls, and when price falls, it rises (all else equal).",
+dfT:"Consumer income|Preferences|Number of buyers|Prices of substitutes|Prices of complements|Expectations",
+dfX:"Higher income raises demand for normal goods.|Trends and habits change demand.|More buyers mean more demand.|Pricier tea raises demand for coffee.|Pricier smartphones lower demand for phone cases.|Expected price rises increase buying today.",
+dm:"A price change moves us along the curve. A change in any other factor shifts the whole curve.",
+dx:"Examples: apples (price falls — people buy more), coffee, smartphones, clothing (higher income — more purchases).",
+st:"Supply",sd:"Supply is the quantity of a good that sellers are willing to sell at a given price. Law of supply: when price rises, quantity supplied rises (all else equal).",
+sfT:"Production costs|Technology|Taxes|Subsidies|Number of producers|Expectations",
+sfX:"Higher costs reduce supply.|New technology cuts costs and raises supply.|Taxes raise costs — supply falls.|Subsidies cut costs — supply rises.|More producers mean more supply.|Expected price rises may temporarily reduce supply.",
+sm:"A price change moves us along the supply curve. Changes in costs, technology or taxes shift the curve.",
+gt:"Interactive graph",gd:"Change demand, supply and the market price. The intersection is calculated with the formula P* = (a − c)/(b + d).",
+P:"Price (֏)",Q:"Quantity",D:"Demand",S:"Supply",lp:"Market price",lA:"Demand shift",lC:"Supply shift",
+tD:"Demand curve: as price rises, quantity falls",tS:"Supply curve: as price rises, quantity grows",tE:"Equilibrium: demand = supply",
+rd:"Quantity demanded",rs:"Quantity supplied",rP:"Equilibrium price",rQ:"Equilibrium quantity",rg:"gap",
+sur:"Surplus: the price is above equilibrium, so sellers offer more than buyers want. Unsold goods push the price down.",
+sho:"Shortage: the price is below equilibrium, so buyers want more than is available. Competition among buyers pushes the price up.",
+eqs:"Equilibrium: demand equals supply, the market is stable.",
+et:"Market equilibrium",ed:"Equilibrium is the state where quantity demanded equals quantity supplied. A high price creates a surplus and the price falls; a low price creates a shortage and the price rises. This is how price moves toward the equilibrium price.",
+ex1:"Example: the price of apples at a market moves to the level at which the whole harvest sells.",
+ct:"Competition",cn:"Perfect competition|Monopoly|Oligopoly|Monopolistic competition",
+cl:"Definition|Characteristics|Example|Number of competitors|Price influence|Advantages|Disadvantages",
+cd:"A market with many small sellers selling the same product.|Identical product, free entry.|Agricultural goods (wheat).|Very many.|No single seller sets the price.|Low prices, efficiency.|Little variety, low profit.~A market where only one seller sells the product.|No substitutes, entry blocked.|A local water utility.|One.|Large: the seller sets the price.|Economies of scale.|High prices, low quality.~A market dominated by a few large firms.|Interdependence, barriers to entry.|Mobile operators, airlines.|Few (2–10).|Significant, but rivals are watched.|Innovation, scale.|Risk of price collusion.~Many sellers offer differentiated products.|Brands, free entry.|Cafés, clothing stores.|Many.|Limited, thanks to branding.|Variety, choice.|Advertising costs.",
+simT:"Economic simulator",sp:"Apples|Bread|Coffee|Smartphones",sl:"Market price|Demand|Supply|Production cost",so:"Current price|Quantity demanded|Quantity supplied|Equilibrium (P / Q)|Status",ss:"Surplus|Shortage|Equilibrium",
+kt:"Calculator",k1:"Total value",kn:"Product name",kp:"Unit price (֏)",kq:"Quantity",kb:"Calculate",kr:"Total value = price × quantity",
+eqT:"Equilibrium calculator",eqD:"Demand: Qd = a − b·P, supply: Qs = c + d·P",
+e1:"Enter valid numbers.",e2:"Price and quantity cannot be negative.",e3:"No unique intersection (b + d = 0).",e4:"The equilibrium has no economic meaning (P or Q ≤ 0).",
+qT:"Quiz",qn:"Next",qf:"Finish",qs:"Score",qr:"Restart",qc:"Correct!",qw:"Incorrect.",qq:"Question",qm:"Review the material and try again.|Good result.|Excellent!",tl:"Language changed.",
+qz:"What is a market?|Buyers and sellers interacting to exchange|Only a shop|A state warehouse|A bank account|0|A market is the interaction of buyers and sellers, where price is formed.~The law of demand says:|When price rises, quantity demanded falls|When price rises, quantity demanded rises|Price does not affect quantity|Income always falls|0|Price and quantity demanded are inversely related.~The law of supply says:|When price rises, quantity supplied falls|When price rises, quantity supplied rises|Supply does not depend on price|Price is always constant|1|Price and quantity supplied are directly related.~Which factor shifts the demand curve?|The good's own price|Consumer income|Production technology|Number of sellers|1|Own price only moves along the curve; income shifts it.~At equilibrium:|Quantity demanded equals quantity supplied|Demand is zero|Supply is zero|Price is zero|0|At the equilibrium point Qd = Qs.~If the price is above equilibrium, there is a:|Shortage|Surplus|Equilibrium|Monopoly|1|At a high price Qs > Qd, so there is a surplus.~If the price is below equilibrium, there is a:|Surplus|Equilibrium|Shortage|Tax|2|At a low price Qd > Qs, so there is a shortage.~A rise in production costs:|Increases supply|Decreases supply (curve shifts left)|Leaves supply unchanged|Increases demand|1|Higher costs make production less profitable, so supply falls.~One seller and no substitutes. This is:|Perfect competition|Monopoly|Oligopoly|Monopolistic competition|1|A market with a single seller is a monopoly.~A few large firms dominate a market. This is:|Oligopoly|Perfect competition|Monopoly|Equilibrium|0|This structure is called an oligopoly.",
+fd2:"An educational platform about the core concepts of the market.",fn:"Educational project for studying the core concepts of economics.",fc:"The material was prepared using the school economics textbook and supplementary educational sources.",fl:"Language"}
+};
+document.documentElement.classList.add('js');
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+let lg='hy',c1=0,c2=0;const T=k=>L[lg][k],A=k=>T(k).split('|');
+const lc={hy:'hy-AM',ru:'ru-RU',en:'en-US'};
+function an(el,v,d=0){cancelAnimationFrame(el._r);const f=()=>{const c=el._v||0,n=Math.abs(v-c)<.05?v:c+(v-c)*.2;el._v=n;el.textContent=n.toFixed(d);if(n!==v)el._r=requestAnimationFrame(f)};f()}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('on'),1800)}
+
+/* ---------- charts ---------- */
+const X=q=>46+q/120*350,Y=p=>236-p/50*224,cl=(v,a,b)=>Math.min(b,Math.max(a,v)),CH=[];
+function chart(id,m){
+ const el=$('#'+id),b=2,d=3,s0={A:100,C:-20,p:m=='g'?36:30},c={s:{...s0},t:{...s0}};
+ let grid='';for(let p=0;p<=50;p+=10)grid+=`<path d="M46 ${Y(p)}H396"/><text x="40" y="${Y(p)+3}" text-anchor="end">${p}</text>`;
+ for(let q=0;q<=120;q+=20)grid+=`<path d="M${X(q)} 12V236"/><text x="${X(q)}" y="250" text-anchor="middle">${q}</text>`;
+ const ks={d:['p','A'],s:['p','C'],g:['p','A','C'],e:[]}[m],rg={p:[1,50],A:[60,140],C:[-60,20]},lb={p:'lp',A:'lA',C:'lC'},kp={d:['rd'],s:['rs'],e:['rP','rQ'],g:['rP','rQ','rd','rs']}[m];
+ el.innerHTML=`<div class="card ch"><svg viewBox="0 0 420 270"><defs><clipPath id="cp${id}"><rect x="46" y="12" width="350" height="224"/></clipPath></defs><g class="gr">${grid}</g><path class="ax" d="M46 12V236H396"/><text class="at" x="50" y="10" data-i="P"></text><text class="at" x="396" y="266" text-anchor="end" data-i="Q"></text>
+ <g clip-path="url(#cp${id})"><rect data-r="gap" rx="5"/><line data-r="D" class="ld" data-t="tD"/><line data-r="S" class="ls" data-t="tS"/></g>
+ <path data-r="eg" class="pl"/><path data-r="pl" class="pl"/><text data-r="lD" class="lb" data-i="D"></text><text data-r="lS" class="lb" data-i="S"></text>
+ <g data-r="ep"><circle class="ring" r="9"/><circle class="pt" r="6" data-t="tE"/></g><circle data-r="mk" class="mk" r="5"/></svg>
+ <div class="ctl">${ks.map(k=>`<label><span data-i="${lb[k]}"></span> <b data-v="${k}"></b><input type="range" min="${rg[k][0]}" max="${rg[k][1]}" value="${s0[k]}" data-k="${k}"></label>`).join('')}</div>
+ <div class="rd">${kp.map(k=>`<div class="kpi"><small data-i="${k}"></small><b data-r="${k}">0</b></div>`).join('')}</div>
+ ${m=='g'?`<p class="st" data-r="st"></p><div class="bars"><div><small data-i="rd"></small><div class="bar2"><i data-r="bd"></i></div></div><div><small data-i="rs"></small><div class="bar2"><i class="gd2" data-r="bs"></i></div></div></div>`:''}</div>`;
+ const r={};el.querySelectorAll('[data-r]').forEach(n=>r[n.dataset.r]=n);
+ const sh=(n,v)=>n.style.display=v?'':'none',at=(n,o)=>{for(const k in o)n.setAttribute(k,o[k])};
+ function draw(){const{A,C,p}=c.s,P=(A-C)/(b+d),Q=A-b*P,qd=Math.max(0,A-b*p),qs=Math.max(0,C+d*p),yp=Y(p);
+  at(r.D,{x1:X(A),y1:Y(0),x2:X(A-b*50),y2:Y(50)});at(r.S,{x1:X(C),y1:Y(0),x2:X(C+d*50),y2:Y(50)});
+  const pd=Math.min(46,(A-6)/b),ps=Math.min(46,(116-C)/d);
+  at(r.lD,{x:cl(X(A-b*pd)+8,50,330),y:Y(pd)+4});at(r.lS,{x:cl(X(C+d*ps)-8,60,392),y:Y(ps)+4,'text-anchor':'end'});
+  sh(r.D,m!='s');sh(r.lD,m!='s');sh(r.S,m!='d');sh(r.lS,m!='d');
+  sh(r.ep,m=='e'||m=='g');sh(r.eg,m=='e'||m=='g');sh(r.pl,m=='d'||m=='s'||m=='g');sh(r.mk,m=='d'||m=='s');sh(r.gap,m=='g');
+  r.ep.setAttribute('transform',`translate(${X(Q)} ${Y(P)})`);r.eg.setAttribute('d',`M46 ${Y(P)}H${X(Q)}V236`);
+  if(m=='d'||m=='s'){const q=m=='d'?qd:qs;r.pl.setAttribute('d',`M46 ${yp}H${X(q)}V236`);at(r.mk,{cx:X(q),cy:yp})}
+  if(m=='g'){r.pl.setAttribute('d',`M46 ${yp}H${X(Math.max(qd,qs))}`);at(r.gap,{x:X(Math.min(qd,qs)),y:yp-5,width:X(Math.abs(qd-qs))-46,height:10});r.gap.setAttribute('class',qs>qd?'gap':'gap sh')}}
+ function upd(){const{A,C,p}=c.t,P=(A-C)/(b+d),Q=A-b*P,qd=Math.max(0,A-b*p),qs=Math.max(0,C+d*p),v={rP:P,rQ:Q,rd:qd,rs:qs};
+  kp.forEach(k=>an(r[k],v[k],1));el.querySelectorAll('[data-v]').forEach(n=>n.textContent=c.t[n.dataset.v]);
+  if(m=='g'){const df=qs-qd,ok=Math.abs(p-P)<.5;r.st.textContent=ok?T('eqs'):T(df>0?'sur':'sho')+' ('+T('rg')+': '+Math.abs(df).toFixed(1)+')';r.st.className='st '+(ok?'':df>0?'su':'sh');r.bd.style.width=Math.min(100,qd/1.2)+'%';r.bs.style.width=Math.min(100,qs/1.2)+'%'}}
+ let on=0;function loop(){if(on)return;on=1;(function f(){let mv=0;for(const k in c.t){const dl=c.t[k]-c.s[k];if(Math.abs(dl)>.05){c.s[k]+=dl*.14;mv=1}else c.s[k]=c.t[k]}draw();if(mv)requestAnimationFrame(f);else on=0})()}
+ el.addEventListener('input',e=>{const k=e.target.dataset.k;if(k){c.t[k]=+e.target.value;upd();loop()}});
+ if(m=='e'){const st=[[100,-20],[130,-20],[130,-50],[80,-30]];let i=0;setInterval(()=>{i=(i+1)%4;[c.t.A,c.t.C]=st[i];upd();loop()},2600)}
+ draw();upd();CH.push(upd);
+}
+['d','s','e','g'].forEach(k=>chart('ch-'+k,k));
+
+/* ---------- factor cards ---------- */
+['fd','fs'].forEach((id,n)=>$('#'+id).innerHTML=[0,1,2,3,4,5].map(i=>`<div class="card fcard rv"><i>${i+1}</i><h4 data-a="${n?'sfT':'dfT'}" data-j="${i}"></h4><p data-a="${n?'sfX':'dfX'}" data-j="${i}"></p></div>`).join(''));
+
+/* ---------- market diagram ---------- */
+let mi=4;function rM(){$$('.nd').forEach(n=>n.classList.toggle('on',+n.dataset.n==mi));$('#mx').textContent=A('me')[mi]}
+$('#mdg').addEventListener('click',e=>{const n=e.target.closest('.nd');if(n){mi=+n.dataset.n;rM()}});
+
+/* ---------- competition ---------- */
+let ci=0;function rC(){const nm=A('cn'),d=T('cd').split('~')[ci].split('|'),lb=A('cl');
+ $('#cg').innerHTML=nm.map((n,i)=>`<button class="card cc ${i==ci?'on':''}" data-c="${i}"><i>${i+1}/4</i><h4>${n}</h4></button>`).join('');
+ $('#cp').innerHTML=`<h3>${nm[ci]}</h3><dl>${lb.map((l,i)=>`<dt>${l}</dt><dd>${d[i]}</dd>`).join('')}</dl>`}
+$('#cg').addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(b){ci=+b.dataset.c;rC()}});
+
+/* ---------- simulator ---------- */
+const PR=[[100,2,-20,3],[90,3,-15,2],[120,2,-30,3],[80,1,-10,1.5]];let pi=0;
+function sim(){const[a0,b,c0,d]=PR[pi],g=i=>+$('#'+i).value,Ad=a0*g('s-dm')/100,C=c0+(g('s-sp')-100)*.5-g('s-ct'),p=g('s-p'),P=(Ad-C)/(b+d),Q=Ad-b*P,qd=Math.max(0,Ad-b*p),qs=Math.max(0,C+d*p);
+ ['p','dm','sp','ct'].forEach(k=>$('#v-'+k).textContent=g('s-'+k)+(k=='p'||k=='ct'?'':'%'));
+ an($('#o-p'),p);an($('#o-d'),qd,1);an($('#o-s'),qs,1);an($('#o-P'),P,1);an($('#o-Q'),Q,1);
+ const df=qs-qd,ok=Math.abs(df)<1;$('#o-t').textContent=A('ss')[ok?2:df>0?0:1]}
+$$('#s-p,#s-dm,#s-sp,#s-ct').forEach(i=>i.addEventListener('input',sim));
+$('#sp').addEventListener('click',e=>{const b=e.target.closest('button');if(b){pi=+b.dataset.j;$$('#sp button').forEach(x=>x.classList.toggle('on',x==b));sim()}});
+
+/* ---------- calculators ---------- */
+function calc1(){const o=$('#c-r'),n=$('#c-n').value.trim(),p=parseFloat($('#c-p').value),q=parseFloat($('#c-q').value);
+ if(!isFinite(p)||!isFinite(q)){o.className='res err';o.textContent=T('e1');return}
+ if(p<0||q<0){o.className='res err';o.textContent=T('e2');return}
+ o.className='res';o.innerHTML='';o.append((n||'—')+': '+p+' × '+q+' = ');const b=document.createElement('b');b.textContent=(p*q).toLocaleString(lc[lg])+' ֏';o.append(b)}
+function calc2(){const o=$('#e-r'),v=['e-a','e-b','e-c','e-d'].map(i=>parseFloat($('#'+i).value)),er=k=>{o.className='res err';o.textContent=T(k)};
+ if(v.some(x=>!isFinite(x)))return er('e1');const[a,b,c,d]=v;if(b+d===0)return er('e3');const P=(a-c)/(b+d),Q=a-b*P;if(P<=0||Q<=0)return er('e4');
+ o.className='res';o.innerHTML=`${T('rP')}: <b>${+P.toFixed(2)} ֏</b> · ${T('rQ')}: <b>${+Q.toFixed(2)}</b>`}
+$('#c-b').onclick=()=>{c1=1;calc1()};$('#e-btn').onclick=()=>{c2=1;calc2()};
+
+/* ---------- quiz ---------- */
+let qi=0,sc=0,ch=-1;
+function rQ(){const z=T('qz').split('~').map(x=>x.split('|')),n=z.length,bx=$('#qb');$('#qp').style.width=Math.min(100,(qi+(ch>=0?1:0))/n*100)+'%';
+ if(qi>=n){bx.innerHTML=`<div class="fin"><b>${sc}/${n}</b><p>${A('qm')[sc>=9?2:sc>=6?1:0]}</p><button class="btn" id="qr">${T('qr')}</button></div>`;return}
+ const q=z[qi],ok=+q[5];
+ bx.innerHTML=`<small>${T('qq')} ${qi+1}/${n} · ${T('qs')}: ${sc}</small><h3 style="margin-top:6px">${q[0]}</h3><div class="opts ${ch>=0?'dn':''}">${[1,2,3,4].map(i=>`<button class="opt ${ch>=0?(i-1==ok?'ok':i-1==ch?'bad':''):''}" data-o="${i-1}">${q[i]}</button>`).join('')}</div>${ch>=0?`<p class="ex"><b>${ch==ok?T('qc'):T('qw')}</b> ${q[6]}</p><button class="btn" id="qx">${qi==n-1?T('qf'):T('qn')}</button>`:''}`}
+$('#qb').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+ if(t.dataset.o!==undefined&&ch<0){ch=+t.dataset.o;if(ch==+T('qz').split('~')[qi].split('|')[5])sc++;rQ()}
+ else if(t.id=='qx'){qi++;ch=-1;rQ()}else if(t.id=='qr'){qi=sc=0;ch=-1;rQ()}});
+
+/* ---------- language ---------- */
+function setL(l,q){lg=l;document.documentElement.lang=l;
+ $$('[data-i]').forEach(e=>e.textContent=T(e.dataset.i));
+ $$('[data-a]').forEach(e=>e.textContent=A(e.dataset.a)[e.dataset.j]);
+ $$('[data-l]').forEach(b=>b.classList.toggle('on',b.dataset.l==l));
+ rM();rC();rQ();CH.forEach(f=>f());sim();c1&&calc1();c2&&calc2();if(q)toast(T('tl'))}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-l]');if(b)setL(b.dataset.l,1)});
+
+/* ---------- UI behaviour ---------- */
+$('#mb').onclick=()=>$('#nv').classList.toggle('open');$('#nv').onclick=()=>$('#nv').classList.remove('open');
+const tip=$('#tip');document.addEventListener('pointermove',e=>{const n=e.target.closest&&e.target.closest('[data-t]');
+ if(n){tip.textContent=T(n.dataset.t);tip.style.left=Math.max(8,Math.min(e.clientX+12,innerWidth-250))+'px';tip.style.top=(e.clientY+16)+'px';tip.style.opacity=1}else tip.style.opacity=0});
+const hv=$('#hv');$('#home').addEventListener('pointermove',e=>{hv.style.setProperty('--mx',(e.clientX/innerWidth-.5)*2);hv.style.setProperty('--my',(e.clientY/innerHeight-.5)*2)});
+const ro=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('in')),{threshold:.08});$$('.rv').forEach(n=>ro.observe(n));
+const so=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)$$('header nav a').forEach(a=>a.classList.toggle('on',a.getAttribute('href')=='#'+e.target.id))}),{rootMargin:'-45% 0px -50% 0px'});$$('section[id]').forEach(s=>so.observe(s));
+setL('hy');
+</script>
+</body>
+</html>
